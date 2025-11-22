@@ -7,6 +7,8 @@
 #include "freertos/queue.h"
 #include "freertos/semphr.h"
 
+#define PDF_DISPLAY_DELAY_MS 5000
+
 // Estrutura para simular dados de um PDF
 typedef struct {
     char nome[30];
@@ -40,21 +42,29 @@ void exibir_tabela(PDFData *dados, int num_registros)
 void ler_pdf_simulado(PDFData *dados, int *num_registros)
 {
     // Simulando dados extraídos de um PDF
-    strcpy(dados[0].nome, "GABRIEL Pessoa Aires");
+    strncpy(dados[0].nome, "GABRIEL Pessoa Aires", sizeof(dados[0].nome) - 1);
+    dados[0].nome[sizeof(dados[0].nome) - 1] = '\0';
     dados[0].idade = 22;
-    strcpy(dados[0].cargo, "Engenheiro de Software");
+    strncpy(dados[0].cargo, "Engenheiro de Software", sizeof(dados[0].cargo) - 1);
+    dados[0].cargo[sizeof(dados[0].cargo) - 1] = '\0';
     
-    strcpy(dados[1].nome, "Maria Silva");
+    strncpy(dados[1].nome, "Maria Silva", sizeof(dados[1].nome) - 1);
+    dados[1].nome[sizeof(dados[1].nome) - 1] = '\0';
     dados[1].idade = 28;
-    strcpy(dados[1].cargo, "Analista de Sistemas");
+    strncpy(dados[1].cargo, "Analista de Sistemas", sizeof(dados[1].cargo) - 1);
+    dados[1].cargo[sizeof(dados[1].cargo) - 1] = '\0';
     
-    strcpy(dados[2].nome, "João Santos");
+    strncpy(dados[2].nome, "João Santos", sizeof(dados[2].nome) - 1);
+    dados[2].nome[sizeof(dados[2].nome) - 1] = '\0';
     dados[2].idade = 35;
-    strcpy(dados[2].cargo, "Gerente de Projetos");
+    strncpy(dados[2].cargo, "Gerente de Projetos", sizeof(dados[2].cargo) - 1);
+    dados[2].cargo[sizeof(dados[2].cargo) - 1] = '\0';
     
-    strcpy(dados[3].nome, "Ana Costa");
+    strncpy(dados[3].nome, "Ana Costa", sizeof(dados[3].nome) - 1);
+    dados[3].nome[sizeof(dados[3].nome) - 1] = '\0';
     dados[3].idade = 26;
-    strcpy(dados[3].cargo, "Desenvolvedora");
+    strncpy(dados[3].cargo, "Desenvolvedora", sizeof(dados[3].cargo) - 1);
+    dados[3].cargo[sizeof(dados[3].cargo) - 1] = '\0';
     
     *num_registros = 4;
 }
@@ -72,7 +82,7 @@ void Task1(void *pvParameters)
             ler_pdf_simulado(dados, &num_registros);
             printf("[Tarefa 1] Exibindo dados em formato de tabela:\n");
             exibir_tabela(dados, num_registros);
-            vTaskDelay(pdMS_TO_TICKS(5000));
+            vTaskDelay(pdMS_TO_TICKS(PDF_DISPLAY_DELAY_MS));
             xSemaphoreGive(xSemaphore);
             vTaskDelay(pdMS_TO_TICKS(10)); // Pequeno delay para alternância
         }
